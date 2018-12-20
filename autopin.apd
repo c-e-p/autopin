@@ -1,0 +1,6 @@
+version: 1
+url: $baseurl/autopin
+requires: local_channel
+name: Autopin
+photo: icon:cog
+categories: Tools
