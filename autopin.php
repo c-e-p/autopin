@@ -22,9 +22,15 @@ function autopin_unload() {
 }
 
 function autopin_pin_apps($uid) {
-	$app_id = Apps::app_install($uid, 'Channel Export');
-	$app = q("select * from app where app_id = '%s' limit 1",
-				dbesc($app_id));
-	$app[0]['guid'] = $app_id;
-	Apps::app_feature($uid, $app[0], 'nav_pinned_app');
+	$list = ['Photos', 'Connections', 'Activitypub Protocol', 'Network', 'Post', 'Privacy Groups', 'Help'];
+	$max = sizeof($list);
+	for ($x = 0; $x < $max; $x++) {
+    	$app_id = Apps::app_install($uid, $list[$x]);
+		$app = q("select * from app where app_id = '%s' limit 1",
+					dbesc($app_id));
+		$app[0]['guid'] = $app_id;
+		if ($list[$x] != 'Activitypub Protocol') {
+			Apps::app_feature($uid, $app[0], 'nav_pinned_app');
+		}
+	}	
 }
